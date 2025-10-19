@@ -1,0 +1,23 @@
+# Build artifacts
+bin/
+obj/
+out/
+*.log
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.userosscache
+*.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test results
+TestResults/
+
+# Other
+launchSettings.json

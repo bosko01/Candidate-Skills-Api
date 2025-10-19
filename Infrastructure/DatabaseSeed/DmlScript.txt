@@ -1,0 +1,62 @@
+﻿USE CandidateSkillsDb;
+GO
+
+-- =======================================
+-- 1. Skills (15 veština)
+-- =======================================
+INSERT INTO Skills (Id, Name)
+VALUES 
+(NEWID(), 'C#'),
+(NEWID(), 'SQL'),
+(NEWID(), 'Java'),
+(NEWID(), 'JavaScript'),
+(NEWID(), 'TypeScript'),
+(NEWID(), 'Python'),
+(NEWID(), 'HTML'),
+(NEWID(), 'CSS'),
+(NEWID(), 'React'),
+(NEWID(), 'Angular'),
+(NEWID(), 'ASP.NET Core'),
+(NEWID(), 'Entity Framework Core'),
+(NEWID(), 'Git'),
+(NEWID(), 'REST APIs'),
+(NEWID(), 'Azure');
+
+-- =======================================
+-- 2. Candidates (15 kandidata)
+-- =======================================
+INSERT INTO Candidates (Id, FirstName, LastName, PhoneNumber, DateOfBirth, Email)
+VALUES
+(NEWID(), 'John', 'Doe', '555-0100', '1990-01-01', 'john.doe@example.com'),
+(NEWID(), 'Jane', 'Smith', '555-0101', '1992-02-02', 'jane.smith@example.com'),
+(NEWID(), 'Mark', 'Johnson', '555-0102', '1988-03-03', 'mark.johnson@example.com'),
+(NEWID(), 'Sara', 'Williams', '555-0103', '1995-04-04', 'sara.williams@example.com'),
+(NEWID(), 'Tom', 'Brown', '555-0104', '1993-05-05', 'tom.brown@example.com'),
+(NEWID(), 'Emily', 'Davis', '555-0105', '1997-06-06', 'emily.davis@example.com'),
+(NEWID(), 'Chris', 'Miller', '555-0106', '1989-07-07', 'chris.miller@example.com'),
+(NEWID(), 'Anna', 'Wilson', '555-0107', '1991-08-08', 'anna.wilson@example.com'),
+(NEWID(), 'James', 'Moore', '555-0108', '1987-09-09', 'james.moore@example.com'),
+(NEWID(), 'Laura', 'Taylor', '555-0109', '1994-10-10', 'laura.taylor@example.com'),
+(NEWID(), 'Peter', 'Anderson', '555-0110', '1990-11-11', 'peter.anderson@example.com'),
+(NEWID(), 'Mia', 'Thomas', '555-0111', '1998-12-12', 'mia.thomas@example.com'),
+(NEWID(), 'Daniel', 'Jackson', '555-0112', '1986-01-15', 'daniel.jackson@example.com'),
+(NEWID(), 'Sophia', 'White', '555-0113', '1999-02-16', 'sophia.white@example.com'),
+(NEWID(), 'Michael', 'Harris', '555-0114', '1991-03-17', 'michael.harris@example.com');
+
+-- =======================================
+-- 3. CandidateSkills (nasumično povezivanje kandidata i veština)
+-- =======================================
+-- Napomena: povezujemo 15 kandidata i 15 veština nasumično.
+
+INSERT INTO CandidateSkills (CandidateId, SkillId, CreatedAt)
+SELECT c.Id, s.Id, GETUTCDATE()
+FROM Candidates c
+JOIN Skills s ON (ABS(CHECKSUM(NEWID())) % 15) = (ABS(CHECKSUM(s.Id)) % 15);
+
+-- Dodatni random linkovi za raznovrsnost
+INSERT INTO CandidateSkills (CandidateId, SkillId, CreatedAt)
+SELECT TOP 50 c.Id, s.Id, DATEADD(DAY, -ABS(CHECKSUM(NEWID()) % 365), GETUTCDATE())
+FROM Candidates c
+CROSS JOIN Skills s
+WHERE ABS(CHECKSUM(NEWID())) % 10 = 0; -- otprilike 10% slučajeva
+GO
